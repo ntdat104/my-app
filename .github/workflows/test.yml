@@ -1,0 +1,29 @@
+name: GitHub Actions Build Tester
+on:
+  pull_request:
+    branches:
+      - master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # - uses: actions/setup-node@v3
+      #   with:
+      #     node-version: 16
+      #     cache: 'npm'
+
+      - name: Install dependencies
+        run: 'npm install'
+
+      - name: Remove env production
+        run: rm .env.production
+      - name: Copy env development -> production
+        run: cp .env .env.production
+
+      - name: Build
+        run: 'npm ci --legacy-peer-deps && npm run build'
+        env:
+          CI: false
