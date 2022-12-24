@@ -18,11 +18,6 @@ jobs:
       - name: Install dependencies
         run: 'npm install'
 
-      - name: Remove env production
-        run: rm .env.production
-      - name: Copy env development -> production
-        run: cp .env .env.production
-
       - name: Build
         run: 'npm ci --legacy-peer-deps && npm run build'
         env:
