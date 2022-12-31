@@ -1,29 +1,25 @@
-name: GitHub Actions Build Tester
+name: GitHub Actions Vercel Production Deployment
+env:
+  VERCEL_ORG_ID: OolCUOTGIaAIkUBovgqGJSD7
+  VERCEL_PROJECT_ID: prj_KLHOLIbhwflbx9ex2rcKR6MhjQC2
 on:
   pull_request:
     branches:
       - master
 jobs:
-  build:
+  Deploy-Production:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
+      - uses: actions/checkout@v3
       # - uses: actions/setup-node@v3
       #   with:
       #     node-version: 16
       #     cache: 'npm'
-
-      - name: Install dependencies
-        run: 'npm install'
-
-      - name: Remove env production
-        run: rm .env.production
-      - name: Copy env development -> production
-        run: cp .env .env.production
-
-      - name: Build
-        run: 'npm ci --legacy-peer-deps && npm run build'
-        env:
-          CI: false
+      - name: Install Vercel CLI
+        run: npm install --global vercel@canary
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=production --token=Ya4UPyviXQQjuASeG4K7LGpp
+      - name: Build Project Artifacts
+        run: vercel build --prod --token=Ya4UPyviXQQjuASeG4K7LGpp
+      - name: Deploy Project Artifacts to Vercel
+        run: vercel deploy --prebuilt --prod --token=Ya4UPyviXQQjuASeG4K7LGpp
