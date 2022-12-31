@@ -18,8 +18,8 @@ jobs:
       - name: Install Vercel CLI
         run: npm install --global vercel@canary
       - name: Pull Vercel Environment Information
-        run: vercel pull --yes --environment=production --token=VtY6zUEmVr6N3ynqhU6Wuhru
+        run: vercel pull --yes --environment=production --token=Ya4UPyviXQQjuASeG4K7LGpp
       - name: Build Project Artifacts
-        run: vercel build --prod --token=VtY6zUEmVr6N3ynqhU6Wuhru
+        run: vercel build --prod --token=Ya4UPyviXQQjuASeG4K7LGpp
       - name: Deploy Project Artifacts to Vercel
-        run: vercel deploy --prebuilt --prod --token=VtY6zUEmVr6N3ynqhU6Wuhru
+        run: vercel deploy --prebuilt --prod --token=Ya4UPyviXQQjuASeG4K7LGpp
