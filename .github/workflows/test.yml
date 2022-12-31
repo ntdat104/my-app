@@ -1,24 +1,25 @@
-name: GitHub Actions Build Tester
+name: GitHub Actions Vercel Production Deployment
+env:
+  VERCEL_ORG_ID: OolCUOTGIaAIkUBovgqGJSD7
+  VERCEL_PROJECT_ID: prj_KLHOLIbhwflbx9ex2rcKR6MhjQC2
 on:
   pull_request:
     branches:
       - master
-
 jobs:
-  build:
+  Deploy-Production:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 12.x
-      - run: yarn install
-      - run: yarn build
-      - name: Deploy to Vercel
-        uses: vercel/action-now-cli@v1
-        env:
-          NOW_TOKEN: VtY6zUEmVr6N3ynqhU6Wuhru
-          NOW_PROJECT_ID: prj_KLHOLIbhwflbx9ex2rcKR6MhjQC2
-          NOW_ORG_ID: OolCUOTGIaAIkUBovgqGJSD7
-        with:
-          command: "now --prod"
+      - uses: actions/checkout@v3
+      # - uses: actions/setup-node@v3
+      #   with:
+      #     node-version: 16
+      #     cache: 'npm'
+      - name: Install Vercel CLI
+        run: npm install --global vercel@canary
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=production --token=VtY6zUEmVr6N3ynqhU6Wuhru
+      - name: Build Project Artifacts
+        run: vercel build --prod --token=VtY6zUEmVr6N3ynqhU6Wuhru
+      - name: Deploy Project Artifacts to Vercel
+        run: vercel deploy --prebuilt --prod --token=VtY6zUEmVr6N3ynqhU6Wuhru
