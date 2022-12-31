@@ -3,20 +3,22 @@ on:
   pull_request:
     branches:
       - master
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
         with:
-          node-version: 16
-          # cache: 'npm'
-
-      - name: Install dependencies
-        run: "npm install"
-
-      - name: Build
-        run: "npm ci --legacy-peer-deps && npm run build"
+          node-version: 12.x
+      - run: yarn install
+      - run: yarn build
+      - name: Deploy to Vercel
+        uses: vercel/action-now-cli@v1
+        env:
+          NOW_TOKEN: VtY6zUEmVr6N3ynqhU6Wuhru
+          NOW_PROJECT_ID: prj_KLHOLIbhwflbx9ex2rcKR6MhjQC2
+          NOW_ORG_ID: OolCUOTGIaAIkUBovgqGJSD7
+        with:
+          command: "now --prod"
